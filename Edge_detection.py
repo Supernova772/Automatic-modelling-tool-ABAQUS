@@ -24,11 +24,24 @@ def Edge_contact_detection(mdbname):
         Instances_edges_squad.append(Instance_edges_squad)
     print(Instances_edges_squad)
     num=0
+    num_ins=0
     for i in range(len(Instances_edges_squad)):
+        Ins=Instance_names[num_ins]
+        num_ins+=1
         for j in range(i+1,len(Instances_edges_squad)):
             for k in Instances_edges_squad[i]:
                 for l in Instances_edges_squad[j]:
                     if k==l:
+                        a=0
+                        b=0
+                        c=0
+                        for m in k:
+                            a+=m[0][0]
+                            b+=m[0][1]
+                            c+=m[0][2]
+                        pointOn=(a/2,b/2,c/2)
+                        edges=mdb.models[mdbname].rootAssembly.instances[Ins].edges.findAt(pointOn)
+                        highlight(edges)
                         num+=1
                         print('Edge coordinates',str(k))
     print('Contact detected in '+str(num)+' places')
